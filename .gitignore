@@ -1,0 +1,21 @@
+# Generated builds and extracted runtime files
+dist/
+.build/
+.rollback/
+src/*.dll
+
+# Local test output and browser profiles
+tests/edge-profile/
+tests/*-source.html
+tests/*-preview.png
+tests/ui-preview.png
+tests/local-report.json
+tests/example-report.html
+src/*Smoke.generated.ps1
+src/*Scan.generated.ps1
+
+# Reports can contain device names and hardware identifiers
+*Bluetooth-rapport*.html
+*Bluetooth-rapport*.json
+*.user
+*.suo

@@ -1,0 +1,25 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check rules
+        shell: powershell
+        run: .\tests\Test-Rules.ps1
+      - name: Build executable
+        shell: powershell
+        run: .\build.ps1
+      - name: Verify embedded source
+        shell: powershell
+        run: |
+          $assembly = [Reflection.Assembly]::LoadFile((Resolve-Path .\dist\EspritICTBluetoothCheck.exe).Path)
+          $names = $assembly.GetManifestResourceNames()
+          foreach ($required in @('App.ps1', 'Collect.ps1', 'esprit-ict-logo.png', 'esprit-ict.ico')) {
+            if ($required -notin $names) { throw "Missing embedded resource: $required" }
+          }
